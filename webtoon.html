@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="list"></div>
+    <script>
+      const list = document.querySelector(".list");
+      const ul = document.createElement("ul");
+      list.appendChild(ul);
+      fetch("http://127.0.0.1:8081/naver/webtoon")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          let tempHtml = "";
+          data.forEach((item, idx) => {
+            tempHtml += `
+            <li>
+                <h2><a href="${item.link}" target="_blank">${item.title}</a></h2>
+                <img src="${item.img}">
+                <div class="info">
+                    <dl>
+                        <dt>작가</dt>
+                        <dt>${item.desc}</dt>
+                    </dl>
+                    <dl>
+                        <dt>평점</dt>
+                        <dt>${item.rating}</dt>
+                    </dl>
+                </div>
+
+            </li>`;
+          });
+          ul.innerHTML = tempHtml;
+        });
+    </script>
+  </body>
+</html>
